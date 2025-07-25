@@ -1,22 +1,8 @@
 import 'package:flutter/material.dart';
-import 'pages/home_page.dart';
+import 'package:cotacoes_app/App.dart';
 
 void main() {
-  runApp(const CurrencyQuotesApp());
+  runApp(const App());
 }
 
-class CurrencyQuotesApp extends StatelessWidget {
-  const CurrencyQuotesApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Cotações Financeiras',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-      ),
-      home: const HomePage(),
-    );
-  }
-}
