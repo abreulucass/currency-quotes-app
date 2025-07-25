@@ -33,7 +33,7 @@ class ApiService {
     }
   }
 
-  static Future<List<CurrencyCode>> fetchCurrencies() async {
+  static Future<List<CurrencyCode>> fetchCodes() async {
     final response = await http.get(Uri.parse(_urlCurrency));
 
     if (response.statusCode == 200) {
