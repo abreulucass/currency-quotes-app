@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/ExchangeRate.dart';
 import '../providers/ExchangeProvider.dart';
 import '../services/ApiService.dart';
+import '../widgets/CurrencySelectorBottomSheet.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,13 +21,18 @@ class HomePage extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () async {
-              final selected = await Navigator.pushNamed(
-                  context, '/select_base');
-              if (selected != null && selected is String) {
-                provider.setBase(selected);
+              final selected = await showModalBottomSheet<String>(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) => const CurrencySelectorBottomSheet(),
+              );
+
+              if (selected != null) {
+                Provider.of<ExchangeProvider>(context, listen: false)
+                    .setBase(selected);
               }
             },
-            child: Text('Base atual: ${baseCurrency}'),
+            child: const Text('Selecionar moeda'),
           ),
           if (provider.isLoading)
             const CircularProgressIndicator()
