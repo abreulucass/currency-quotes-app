@@ -1,8 +1,8 @@
 import 'package:cotacoes_app/models/CurrencyCode.dart';
 import 'package:flutter/material.dart';
+import '../models/PairConversion.dart';
 import '../services/ApiService.dart';
-
-import '../models/ExchangeRate.dart'; // ou onde estiver seu model
+import '../models/ExchangeRate.dart';
 
 class ExchangeProvider with ChangeNotifier {
   String _base = 'USD';
@@ -43,6 +43,26 @@ class ExchangeProvider with ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
+  }
+
+  Future<PairConversion?> currencyConverter(String fromCurrency, String toCurrency) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      final response = await ApiService.pairConversion(
+        baseCode: fromCurrency,
+        targetCode: toCurrency,
+      );
+
+      return response;
+    } catch (e) {
+      print('Erro: $e');
+      return null;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
   void setBase(String newBase) {

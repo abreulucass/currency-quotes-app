@@ -1,9 +1,6 @@
-
-import 'package:cotacoes_app/pages/DetailsPage.dart';
-import 'package:cotacoes_app/pages/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'models/ExchangeRate.dart';
+import 'navigation/MainNavigation.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -16,13 +13,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      routes: {
-        '/': (context) => const HomePage(),
-        '/details': (context) {
-          final args = ModalRoute.of(context)!.settings.arguments as ExchangeRate;
-          return DetailsPage(rate: args);
-        }
-      },
+        home: const MainNavigation(),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

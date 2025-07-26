@@ -1,10 +1,9 @@
 import 'package:cotacoes_app/widgets/ExchangeRateTile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/ExchangeRate.dart';
 import '../providers/ExchangeProvider.dart';
-import '../services/ApiService.dart';
 import '../widgets/CurrencySelectorBottomSheet.dart';
+import 'DetailsPage.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -45,7 +44,12 @@ class HomePage extends StatelessWidget {
                   return ExchangeRateTile(
                     rate: rate,
                     onTap: () {
-                      Navigator.pushNamed(context, '/details', arguments: rate);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailsPage(rate: rate),
+                        ),
+                      );
                     }, baseCurrency: provider.base,
                   );
                 },

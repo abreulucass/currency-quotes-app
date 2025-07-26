@@ -46,7 +46,7 @@ class ApiService {
     }
   }
 
-  static Future<PairConversion> pairConversion({String baseCode = '', String targetCode = ''}) async {
+  static Future<PairConversion> pairConversion({required String baseCode, required String targetCode}) async {
     final response = await http.get(Uri.parse('$_urlPairConversion$baseCode/$targetCode'));
 
     if (response.statusCode == 200) {
