@@ -8,7 +8,7 @@ Esse desafio foi desenvolvido como parte do Desafio Talent Lab 2025 - Bemol Digi
 
 ## 📋 Descrição
 
-O **Cotacoes App** permite:
+O **Aplicativo** permite:
 
 - Selecionar a moeda base.
 - Visualizar uma lista de moedas e suas taxas de câmbio.
