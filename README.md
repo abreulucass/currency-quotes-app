@@ -40,7 +40,7 @@ flutter pub get
 ```
 
 ### 🔐 3. Adicionar chave da API
-Crie o arquivo AppConfig.dart seguindo arquivo de exemplo AppConfigExample.dart
+Crie o arquivo AppConfig.dart na pasta lib/config/ seguindo arquivo de exemplo AppConfigExample.dart
 
 ```dart
 class AppConfig {
