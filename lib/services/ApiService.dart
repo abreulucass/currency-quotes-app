@@ -13,8 +13,10 @@ class ApiService {
   static final String _urlCurrency = '$baseUrl$apiKey/codes';
   static final String _urlPairConversion = '$baseUrl$apiKey/pair/';
 
-  static Future<List<ExchangeRate>> fetchExchangeRates({String base = 'BRL'}) async {
-    final response = await http.get(Uri.parse('$_urlExchanges/$base'));
+  static Future<List<ExchangeRate>> fetchExchangeRates({String base = 'BRL', http.Client? client,}) async {
+    client ??= http.Client();
+
+    final response = await client.get(Uri.parse('$_urlExchanges$base'));
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
@@ -33,8 +35,10 @@ class ApiService {
     }
   }
 
-  static Future<List<CurrencyCode>> fetchCodes() async {
-    final response = await http.get(Uri.parse(_urlCurrency));
+  static Future<List<CurrencyCode>> fetchCodes({http.Client? client}) async {
+    client ??= http.Client();
+
+    final response = await client.get(Uri.parse(_urlCurrency));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -46,8 +50,10 @@ class ApiService {
     }
   }
 
-  static Future<PairConversion> pairConversion({required String baseCode, required String targetCode}) async {
-    final response = await http.get(Uri.parse('$_urlPairConversion$baseCode/$targetCode'));
+  static Future<PairConversion> pairConversion({required String baseCode, required String targetCode, http.Client? client}) async {
+    client ??= http.Client();
+
+    final response = await client.get(Uri.parse('$_urlPairConversion$baseCode/$targetCode'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
