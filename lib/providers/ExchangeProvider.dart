@@ -5,7 +5,7 @@ import '../services/ApiService.dart';
 import '../models/ExchangeRate.dart';
 
 class ExchangeProvider with ChangeNotifier {
-  String _base = 'USD';
+  String _base = 'BRL';
   List<ExchangeRate> _rates = [];
   List<CurrencyCode> _codes = [];
   bool _isLoading = false;

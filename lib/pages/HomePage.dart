@@ -15,47 +15,76 @@ class HomePage extends StatelessWidget {
     final baseCurrency = provider.base;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Cotações em ${baseCurrency}')),
-      body: Column(
-        children: [
-          ElevatedButton(
-            onPressed: () async {
-              final selected = await showModalBottomSheet<String>(
-                context: context,
-                isScrollControlled: true,
-                builder: (context) => const CurrencySelectorBottomSheet(),
-              );
-
-              if (selected != null) {
-                Provider.of<ExchangeProvider>(context, listen: false)
-                    .setBase(selected);
-              }
+      appBar: AppBar(
+        title: Text('Cotações'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: 'Atualizar',
+            onPressed: () {
+              provider.fetchRates();
             },
-            child: const Text('Selecionar moeda'),
           ),
-          if (provider.isLoading)
-            const CircularProgressIndicator()
-          else
-            Expanded(
-              child: ListView.builder(
-                itemCount: rates.length,
-                itemBuilder: (context, index) {
-                  final rate = rates[index];
-                  return ExchangeRateTile(
-                    rate: rate,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailsPage(rate: rate),
-                        ),
-                      );
-                    }, baseCurrency: provider.base,
-                  );
-                },
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              child: ListTile(
+                leading: const Icon(Icons.monetization_on),
+                title: Text('Moeda base: $baseCurrency'),
+                trailing: FilledButton.icon(
+                  icon: const Icon(Icons.swap_horiz),
+                  label: const Text('Trocar'),
+                  onPressed: () async {
+                    final selected = await showModalBottomSheet<String>(
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                      ),
+                      builder: (context) => const CurrencySelectorBottomSheet(),
+                    );
+
+                    if (selected != null) {
+                      provider.setBase(selected);
+                    }
+                  },
+                ),
               ),
             ),
-        ],
+            const SizedBox(height: 16),
+            if (provider.isLoading)
+              const Expanded(child: Center(child: CircularProgressIndicator()))
+            else
+              Expanded(
+                child: ListView.separated(
+                  itemCount: rates.length,
+                  separatorBuilder: (context, index) => const Divider(height: 0),
+                  itemBuilder: (context, index) {
+                    final rate = rates[index];
+                    return ExchangeRateTile(
+                      rate: rate,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailsPage(rate: rate),
+                          ),
+                        );
+                      },
+                      baseCurrency: provider.base,
+                    );
+                  },
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
